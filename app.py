@@ -2,6 +2,9 @@ from pymongo import MongoClient
 import jwt
 import datetime
 import hashlib
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
@@ -13,9 +16,11 @@ app.config["UPLOAD_FOLDER"] = "./static/profile_pics"
 
 SECRET_KEY = "SPARTA"
 
-MONGODB_CONNECTION_STRING = "mongodb+srv://Astridalifiah:Jaemin@cluster0.kcbmqee.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-client = MongoClient(MONGODB_CONNECTION_STRING)
-db = client.dbsparta_plus_week4
+MONGODB_URI = os.environ.get("MONGODB_URI")
+DB_NAME =  os.environ.get("DB_NAME")
+
+client = MongoClient(MONGODB_URI)
+db = client[DB_NAME]
 
 
 @app.route("/")
